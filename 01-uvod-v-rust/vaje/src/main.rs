@@ -7,7 +7,18 @@ use core::panic;
 /// Napišite funkcijo `fib`, ki sprejme začetna člena fibbonacijevega zaporedja, število `n` in vrne `n`-ti člen zaporedja
 
 fn fib(a0: u32, a1: u32, n: u32) -> u32 {
-    panic!("Not implemented");
+    let mut prvi_clen = a0;
+    let mut drugi_clen = a1;
+    let mut index = 0;
+    loop {
+        if index >= n {
+            return prvi_clen
+        }
+        let vsota = prvi_clen + drugi_clen;
+        prvi_clen = drugi_clen;
+        drugi_clen = vsota;
+        index += 1
+    }
 }
 
 /// ------------------------------------------------------------------------------------------------
@@ -20,6 +31,24 @@ fn fib(a0: u32, a1: u32, n: u32) -> u32 {
 
 // Dan, mesec, leto
 type Date = (u32, u32, u32);
+
+fn je_veljaven_datum(datum: Date) -> bool {
+    let (dan,mesec,leto) = datum;
+    let prestopno = match (leto % 4 == 0, leto % 100 == 0, leto % 400 == 0) {
+        (true,false,_) => 29,
+        (_,true,false) => 28,
+        (_,_,true) => 29,
+        (_,_,_) => 28
+    };
+    
+    let limita = match mesec {
+        1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
+        4 | 6 | 9 | 11 => 30,
+        2 =>  prestopno,
+        _ => 0,
+    };
+    return  1 <= dan && dan <= limita
+}
 
 /// ------------------------------------------------------------------------------------------------
 
@@ -114,7 +143,10 @@ fn pyramid(n: u32) {
 /// A B C D C B A
 /// Napišite funkcijo `fn selection_sort(mut arr: [u32])`, ki uredi tabelo `arr` z uporabo algoritma urejanja z izbiranjem
 
-fn main() {}
+fn main() {
+    println!("{}",fib(0,1,10));
+    println!("{}",je_veljaven_datum((10,11,2024)));
+}
 
 #[cfg(test)]
 mod tests {
