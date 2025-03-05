@@ -15,7 +15,7 @@ Različne zahteve zapišite v slovenščini (angleščini) kot komentarje in obr
    - `next` za pridobitev trenutnega člena zaporedja in zaporedje premakne naprej.
    Ukaz `(a.next();a.next())` naj tako za zaporedje z začetkom 1 in korakom 1 vrne `(1,2)`.
    - `n_th` za pridobitev n-tega člena zaporedja.
-   - `reset` za ponastavitev zaporedja na začetek, tako da bo naslednji  `next` vrnil prvi člen zaporedja.
+- `reset` za ponastavitev zaporedja na začetek, tako da bo naslednji  `next` vrnil prvi člen zaporedja.
    - `current` za pridobitev trenutnega člena zaporedja, vendar brez premika na naslednjega.
    - `sum`, ki sešteje prvih `n` členov zaporedja, a zaporedje pusti v nespremenjenem stanju.
    Pri tem ne uporabite formule za vsoto aritmetičnega zaporedja.
