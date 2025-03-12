@@ -38,7 +38,7 @@ enum BinOperacija {
     Times,
 }
 
-enum Izraz {
+enum Izraz {    
     Konstanta(u32),
     Operacija(Box<Izraz>, BinOperacija, Box<Izraz>),
 }

@@ -66,7 +66,15 @@ impl AZ {
         return vsota;
     }
 
+    fn vsota(&self, other : &Self) -> AZ {
+        return AZ {
+            prvi_clen: self.prvi_clen + other.prvi_clen,
+            korak: self.korak + other.korak,
+            trenutni_clen: self.trenutni_clen + other.trenutni_clen
+        }
     }
+    
+}
 
 
 
@@ -81,17 +89,79 @@ fn main() {
     println!("{}",a.current());
     let cognito_ergo = AZ::new(2, 3);
     println!("{}",cognito_ergo.sum(100));
-    println!("{}",a.sum(100))
+    println!("{}",a.sum(100));
+    println!("{}",a.vsota(&a).current());
     // println!("{}",)
     // println!("{}",)
     // println!("{}",)
     // println!("{}",)
     // println!("{}",)
     // println!("{}",)
-    // println!("{}",)
-    // println!("{}",)
+    // let izraz = Izraz 
+    //     Operacija (Izraz{Konstanta(1)}, BinOperacija {Plus}, Izraz{Operacija(Izraz{Konstanta(2), BinOperacija {Krat}, Izraz{Konstanta(3)} }) })
+    let izraz = Izraz::Operacija(
+        Box::new(Izraz::Konstanta(1)),
+        BinOperacija::Plus,
+        Box::new(Izraz::Operacija
+            (Box::new(Izraz::Konstanta(2)),
+            BinOperacija::Times,
+            Box::new(Izraz::Konstanta(3)),)
+        ),
+    );
+
+    println!("{}",izraz.eval());
+    println!("{}",izraz.eval());
+    println!("{}",izraz.collect());
+    println!("{}",izraz.izpis());
+
 }
 
+enum BinOperacija {
+    Plus,
+    Minus,
+    Times,
+}
 
+enum Izraz {
+    Konstanta(u32),
+    Operacija(Box<Izraz>, BinOperacija, Box<Izraz>),
+}
 
+impl Izraz {
+    fn eval(&self) -> u32 {
+        match self {
+            Izraz::Konstanta(n) => *n,
+            Izraz::Operacija (izraz1, operacija, izraz2) =>
+                match operacija {
+                    BinOperacija::Plus => izraz1.eval() + izraz2.eval(),
+                    BinOperacija::Minus => izraz1.eval() - izraz2.eval(),
+                    BinOperacija::Times => izraz1.eval() * izraz2.eval(),
+                }
+        }
+    }
 
+    fn collect(&self) -> u32 {
+        match self {
+            Izraz::Konstanta(_) => 1,
+            Izraz::Operacija (izraz1, _ , izraz2) =>
+            izraz1.collect() + izraz2.collect(),
+        }
+    }
+
+    fn izpis(&self) -> String {
+        match self {
+            Izraz::Konstanta(n) => format!("{}",*n),
+            Izraz::Operacija (izraz1, operacija, izraz2) =>
+                match operacija {
+                    BinOperacija::Plus => format!("({} + {})", izraz1.izpis(), izraz2.izpis()),
+                    BinOperacija::Minus => format!("({} - {})", izraz1.izpis(), izraz2.izpis()),
+                    BinOperacija::Times => format!("({} * {})", izraz1.izpis(), izraz2.izpis()),
+                }
+        }
+    }
+
+}
+
+// const IZRAZ: Izraz = Izraz {
+//     Operacija (Izraz{Konstanta(1)}, BinOperacija {Plus}, Izraz{Operacija(Izraz{Konstanta(2), BinOperacija {Krat}, Izraz{Konstanta(3)} }) })
+// }
