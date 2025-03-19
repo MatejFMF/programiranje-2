@@ -101,3 +101,71 @@ fn main() {
         p2.absolutna_vrednost()
     );
 }
+
+
+trait Sequence<T> {
+    fn name(&self) -> String;
+    fn k_th(&self,k:usize) -> Option<T>;
+    fn contains(&self,item:T) -> bool;
+    fn start(&self) -> T; 
+}
+
+struct Constant<T> {
+    c: T
+}
+
+impl<T> Constant<T> {
+    fn new(c: T) -> Constant<T>{
+        Constant {c}
+    }
+}
+
+struct ConstantInteger {
+    c: i32
+}
+
+impl ConstantInteger {
+    fn new(c: i32) -> ConstantInteger{
+        ConstantInteger  {c}
+    }
+}
+
+// impl Constant<i32> for ConstantInteger {
+//     fn new(c:i32) -> Constant<i32> {
+//         Constant{c}
+//     }
+// }
+
+// impl<T> Sequence<T> for Constant<T> {
+//     fn name(&self) -> String{
+//         format!("Constant")
+//     }
+//     fn k_th(&self, k:usize) -> Option<T>{
+//         return Some(self.c);
+//     }
+//     fn contains(&self,item:T) -> bool {
+//         return self.c == item;
+//     }
+//     fn start(&self) -> T {
+//         return self.c
+//     }
+// }
+
+
+impl Sequence<i32> for Constant<i32> {
+    fn name(&self) -> String{
+        format!("Constant")
+    }
+    fn k_th(&self, k:usize) -> Option<i32>{
+        return Some(self.c);
+    }
+    fn contains(&self,item:i32) -> bool {
+        return self.c == item;
+    }
+    fn start(&self) -> i32 {
+        return self.c
+    }
+}
+
+
+fn test() {}
