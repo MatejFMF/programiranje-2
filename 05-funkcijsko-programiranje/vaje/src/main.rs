@@ -10,6 +10,46 @@
 
 // Vzemite zaporedja iz prejšnjih vaj in naredite nov objekt, ki sprejme zaporedje in ga naredi iterabilnega
 
+// fn apply_int() |fun, x| -> fun x
+
+use std::{io::repeat, ops::Range};
+
+fn apply_int(f: impl Fn(i64)-> i64, x:i64) -> i64 {
+    return f(x)
+}
+
+fn apply_int2<F>(f: F, x:i64) -> i64
+    where F: Fn(i64) -> i64 
+    {
+        return f(x)
+    }
+
+fn apply_int_dyn(f: &dyn Fn(i64)-> i64, x:i64) -> i64 {
+    return f(x)
+}
+
+fn apply<A,B>(f: impl Fn(A) -> B, a: A ) -> B {
+    return f(a)
+}
+
+fn apply_two<A,B>(f: impl Fn(A, A) -> B, a1: A, a2: A) -> B {
+    return f(a1,a2)
+}
+
+// fn map<A,B>(f: impl Fn(A) -> B, v: Vec<A>) -> Vec<B> {
+//     return v.iter().map(f).collect()
+// }   
+
+// ponavljaj: int -> ('a -> 'a) -> 'a -> 'a // Ponovi zaprtje n-krat
+fn ponavljaj<A>(n: u32, f: impl Fn(A) -> A, a: A) -> A {
+    match n {
+        0 => a,
+        _ => ponavljaj(n-1,&f,f(a))
+    }
+}
+
+
+
 // Iteratorji
 
 // Napišite funkcijo, ki sprejme vektor XYZ in s pomočjo iteratorja naredi W
@@ -81,3 +121,19 @@ fn test_degenerate_cases() {
 
 
 */
+
+
+fn main() {
+    let a = |x:i64| {x * 2};
+    let b = |x:i64| {x * 10};
+
+    let fncs = vec![a,b];
+    println!("impl: {}, dyn: {}",
+    apply_int(fncs[0],10),
+    apply_int_dyn(&fncs[0], 10)
+    );
+    println!("impl: {}, dyn: {}",
+    apply_int(fncs[1],10),
+    apply_int_dyn(&a, 10)
+    );
+}

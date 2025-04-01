@@ -77,9 +77,6 @@ impl AZ {
 }
 
 
-
-
-
 fn main() {
     let mut a = AZ::new(1, 1);
     println!("{},{}", a.next(), a.next());
@@ -125,6 +122,12 @@ enum BinOperacija {
 enum Izraz {
     Konstanta(u32),
     Operacija(Box<Izraz>, BinOperacija, Box<Izraz>),
+}
+
+
+enum Drevo<'a> {
+    Prazno,
+    Sestavljeno(&'a Drevo<'a>,u32,&'a Drevo<'a>),
 }
 
 impl Izraz {
